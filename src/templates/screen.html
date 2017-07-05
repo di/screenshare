@@ -1,0 +1,25 @@
+<html>
+  <head>
+    <script src="js/axios.min.js"></script>
+    <script type="text/javascript">
+      const fileReader = new FileReader()
+
+      function fetchImage() {
+        new Promise((res, rej) => {
+          const url = "/screen.png?random=" + new Date().getTime()
+          axios.get(url, { responseType: 'blob' })
+            .then(function (response) {
+              document.images["screen"].src = URL.createObjectURL(response.data)
+              res(fetchImage())
+            })
+            .catch(function (error) { console.log(error) })
+        })
+      }
+
+      document.addEventListener("DOMContentLoaded", fetchImage)
+    </script>
+  </head>
+  <body>
+    <img width="100%" id="screen">
+  </body>
+</html>
